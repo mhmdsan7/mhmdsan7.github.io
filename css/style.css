@@ -1,0 +1,25 @@
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+a {
+  color: #90caf9;
+}
+
+nav, header, footer {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.post {
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+code, pre {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
