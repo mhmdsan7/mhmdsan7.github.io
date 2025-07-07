@@ -10,7 +10,7 @@ categories: [ransomware, threat-intel, RaaS]
 
 ---
 
-## 🧨 Who is RansomHub?
+##  Who is RansomHub?
 
 **RansomHub** is a Ransomware-as-a-Service (RaaS) group that emerged in early 2024 and quickly gained attention in the cyber threat landscape. Believed to be a rebrand or evolution of the **Knight** or **ALPHV (BlackCat)** ransomware gangs, RansomHub has built a solid affiliate model, targeting large enterprises through double extortion tactics.
 
@@ -18,7 +18,7 @@ Their leak site is hosted on the dark web and lists a growing number of victims 
 
 ---
 
-## ⚙️ Tactics, Techniques, and Procedures (TTPs)
+##  Tactics, Techniques, and Procedures (TTPs)
 
 RansomHub follows a typical but effective RaaS model. Here’s how they operate:
 
@@ -30,7 +30,7 @@ RansomHub follows a typical but effective RaaS model. Here’s how they operate:
 
 ---
 
-## 🧠 Technical Observations
+##  Technical Observations
 
 - Written in **Golang**, which helps evade traditional signature-based detection.
 - Uses multiple **obfuscation layers** and **mutex locking** to avoid repeated infections.
@@ -38,7 +38,7 @@ RansomHub follows a typical but effective RaaS model. Here’s how they operate:
 
 ---
 
-## 🌍 Victim Profile
+##  Victim Profile
 
 RansomHub does not appear to discriminate heavily by industry. Victims so far include:
 
@@ -51,7 +51,7 @@ This group often targets organizations with **weak EDR**, **unpatched VPNs**, or
 
 ---
 
-## 🧩 IOCs (Indicators of Compromise)
+##  IOCs (Indicators of Compromise)
 
 > Note: These are publicly available open-source indicators. Always validate before blocking.
 
@@ -64,7 +64,7 @@ This group often targets organizations with **weak EDR**, **unpatched VPNs**, or
 
 ---
 
-## 🔒 Defensive Recommendations
+##  Defensive Recommendations
 
 1. **Harden VPNs**: Use MFA and monitor for brute-force attempts.
 2. **Patch RDP & Fortinet appliances** regularly.
@@ -74,7 +74,7 @@ This group often targets organizations with **weak EDR**, **unpatched VPNs**, or
 
 ---
 
-## 🔚 Conclusion
+##  Conclusion
 
 RansomHub is another sign that **ransomware isn’t going away**, it’s just rebranding, refining, and recruiting. Organizations must treat **threat intelligence as continuous** — not reactive.
 
@@ -83,4 +83,4 @@ RansomHub is another sign that **ransomware isn’t going away**, it’s just re
 ---
 
 *Written by Mohammed Aladgham (@Al_adg)*  
-*Follow for weekly CTI updates and threat actor breakdowns.*
+*Follow for occasional CTI updates and threat actor breakdowns.*
