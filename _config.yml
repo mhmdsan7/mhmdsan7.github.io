@@ -6,12 +6,8 @@ twitter_username: "Al_adg"
 github_username: "mhmdsan7"
 linkedin_username: "aladghm"
 
-theme: "minima"
-
-minima:
-  skin: dark
-  include_css:
-    - /assets/css/style.css
+remote_theme: mmistakes/minimal-mistakes
+minimal_mistakes_skin: dark
 
 rss: rss
 
