@@ -1,5 +1,4 @@
-Here you can say lots of fun things about your site.
+Mohammed — a Cyber Threat Intelligence enthusiast and practitioner.
 
-Maybe say a some things about yourself.
-
-Or maybe what you plan to blog about.
+This blog is my place to share insights, research, and resources related to threat intelligence, cybersecurity trends, and adversary tactics. Whether you're a beginner or a fellow analyst, I hope you find something useful here.
+Lets keep the field more fun.
