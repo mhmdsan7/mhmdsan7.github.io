@@ -1,0 +1,6 @@
+# Author details for jekyll-seo-tag (structured data and the X/Twitter creator
+# tag). The key must match `author` in _config.yml or a post's front matter.
+Mohammed Aladgham:
+  name: "Mohammed Aladgham"
+  twitter: "Al_adg"
+  url: "https://blog.aladgham.com/about/"

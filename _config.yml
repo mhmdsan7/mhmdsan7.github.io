@@ -61,9 +61,12 @@ kramdown:
     laquo_space: "<< "
     raquo_space: " >>"
 
+# GitHub Pages' titles-from-headings plugin: only give a title to pages that
+# have none. Posts always use their front-matter title (with `collections:
+# true` the plugin replaced it with a post's first heading and removed it).
 titles_from_headings:
-  strip_title: true
-  collections: true
+  strip_title: false
+  collections: false
 
 plugins:
   - jekyll-feed
