@@ -1,0 +1,44 @@
+# Builds the site with the same Jekyll builder GitHub Pages uses and checks the
+# output (links, metadata, feed, sitemap, search index, preserved URLs).
+# This workflow never deploys: GitHub Pages still publishes `main` as before.
+name: Build check
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # Pull requests from branches in this repository are already checked by
+    # their push; this only adds a run for pull requests from forks.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v7
+
+      - name: Build with the GitHub Pages Jekyll builder
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Check the built site
+        run: python3 .github/scripts/check_site.py _site
+
+      - name: Upload the built site
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: site
+          path: _site
+          retention-days: 14

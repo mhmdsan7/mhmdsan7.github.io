@@ -1,0 +1,50 @@
+{%- comment -%}
+  Up to three related articles: same category first, then shared tags.
+  Param: category (the current article's category page, may be nil).
+{%- endcomment -%}
+{%- assign related = "" | split: "" -%}
+{%- for rel_post in site.posts -%}
+  {%- if rel_post.url == page.url -%}{%- continue -%}{%- endif -%}
+  {%- for rel_cat in rel_post.categories -%}
+    {%- if page.categories contains rel_cat -%}
+      {%- assign related = related | push: rel_post -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- if related.size < 3 -%}
+  {%- for rel_post in site.posts -%}
+    {%- if rel_post.url == page.url or related contains rel_post -%}{%- continue -%}{%- endif -%}
+    {%- for rel_tag in rel_post.tags -%}
+      {%- if page.tags contains rel_tag -%}
+        {%- assign related = related | push: rel_post -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- assign related_cat = include.category -%}
+<section class="container related" aria-labelledby="related-title">
+  <div class="section-head">
+    <h2 class="section-title" id="related-title">Related research</h2>
+    <a class="section-link" href="{{ '/research/' | relative_url }}">All research{% include icon.html name="arrow-right" %}</a>
+  </div>
+  {%- if related.size > 0 %}
+  <div class="card-grid">
+    {%- for rel_post in related limit: 3 %}
+    {% include post-card.html post=rel_post %}
+    {%- endfor %}
+  </div>
+  {%- else %}
+  <div class="empty-state empty-state--compact">
+    <p class="empty-title">No related articles yet</p>
+    <p>{% if related_cat %}New {{ related_cat.title | escape }} research will be linked here as it's published.{% else %}Related research will be linked here as it's published.{% endif %}</p>
+    <p class="empty-actions">
+      {%- if related_cat %}
+      <a class="button button--ghost" href="{{ related_cat.url | relative_url }}">{{ related_cat.title | escape }}</a>
+      {%- endif %}
+      <a class="button button--ghost" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Follow via RSS</a>
+    </p>
+  </div>
+  {%- endif %}
+</section>

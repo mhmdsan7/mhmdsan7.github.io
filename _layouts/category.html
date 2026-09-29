@@ -1,0 +1,53 @@
+---
+layout: default
+---
+{%- assign all_categories = site.pages | where: "layout", "category" | sort: "order" -%}
+{%- include category-posts.html id=page.category_id -%}
+{%- assign this_posts = cat_posts -%}
+{%- assign this_count = cat_count -%}
+<div class="container page">
+  <header class="page-header">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol role="list">
+        <li><a href="{{ '/categories/' | relative_url }}">Categories</a></li>
+      </ol>
+    </nav>
+    <div class="page-title-row">
+      <span class="category-icon category-icon--lg">{% include icon.html name=page.icon %}</span>
+      <h1 class="page-title">{{ page.title | escape }}</h1>
+    </div>
+    <p class="page-lead">{{ page.description }}</p>
+    <p class="page-count">{% if this_count == 0 %}No articles yet{% elsif this_count == 1 %}1 article{% else %}{{ this_count }} articles{% endif %}</p>
+  </header>
+
+  <nav class="chip-row" aria-label="Filter by category">
+    <a class="chip" href="{{ '/research/' | relative_url }}">All research <span class="chip-count">{{ site.posts | size }}</span></a>
+    {%- for cat in all_categories %}
+    {%- include category-posts.html id=cat.category_id %}
+    <a class="chip" href="{{ cat.url | relative_url }}"{% if cat.url == page.url %} aria-current="page"{% endif %}>{{ cat.title | escape }} <span class="chip-count">{{ cat_count }}</span></a>
+    {%- endfor %}
+  </nav>
+
+  {%- if this_count > 0 %}
+  <ol class="post-list" role="list">
+    {%- for post in this_posts %}
+    <li>{% include post-row.html post=post level=2 hide_category=true %}</li>
+    {%- endfor %}
+  </ol>
+  {%- else %}
+  <div class="empty-state">
+    <span class="empty-icon">{% include icon.html name=page.icon %}</span>
+    <h2 class="empty-title">No {{ page.title | escape }} articles yet</h2>
+    <p>{{ page.empty_message | default: "Research in this category will be listed here as soon as it's published." }}</p>
+    <p class="empty-actions">
+      <a class="button button--ghost" href="{{ '/research/' | relative_url }}">Browse all research</a>
+      <a class="button button--ghost" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Follow via RSS</a>
+    </p>
+  </div>
+  {%- endif %}
+
+  {%- assign extra = content | strip %}
+  {%- if extra != "" %}
+  <div class="prose category-notes">{{ content }}</div>
+  {%- endif %}
+</div>

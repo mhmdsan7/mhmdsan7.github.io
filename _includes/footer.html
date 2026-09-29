@@ -1,0 +1,37 @@
+{%- assign footer_categories = site.pages | where: "layout", "category" | sort: "order" -%}
+{%- assign first_year = site.posts.last.date | date: "%Y" -%}
+{%- assign this_year = site.time | date: "%Y" -%}
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-about">
+      <a class="brand" href="{{ '/' | relative_url }}">
+        {% include logo.html id="footer" %}
+        <span class="brand-name">{{ site.title }}</span>
+      </a>
+      <p>{{ site.description }}</p>
+      {% include social-links.html %}
+    </div>
+    <nav class="footer-nav" aria-labelledby="footer-research-title">
+      <h2 class="footer-title" id="footer-research-title">Research</h2>
+      <ul role="list">
+        {%- for cat in footer_categories %}
+        <li><a href="{{ cat.url | relative_url }}">{{ cat.title | escape }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+    <nav class="footer-nav" aria-labelledby="footer-site-title">
+      <h2 class="footer-title" id="footer-site-title">Site</h2>
+      <ul role="list">
+        <li><a href="{{ '/research/' | relative_url }}">All research</a></li>
+        <li><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
+        <li><a href="{{ '/search/' | relative_url }}">Search</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+        <li><a href="{{ '/feed.xml' | relative_url }}">RSS feed</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer-bottom">
+    <p>&copy; {% if first_year and first_year != "" and first_year != this_year %}{{ first_year }}&ndash;{% endif %}{{ this_year }} {{ site.author }}</p>
+    <p>Built with Jekyll &middot; Hosted on GitHub Pages</p>
+  </div>
+</footer>

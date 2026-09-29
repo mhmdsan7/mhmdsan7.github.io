@@ -1,0 +1,35 @@
+{%- comment -%}
+  Table of contents built from the rendered article HTML (h2 and h3 with ids).
+  Usage: {% include toc.html html=content %}
+  Outputs nothing when the article has fewer than two headings. Add
+  {: .no_toc} under a heading in Markdown to leave it out.
+{%- endcomment -%}
+{%- assign toc_parts = include.html | split: "<h" -%}
+{%- assign toc_count = 0 -%}
+{%- assign toc_item_open = false -%}
+{%- assign toc_sub_open = false -%}
+{%- capture toc_items -%}
+{%- for toc_part in toc_parts offset: 1 -%}
+  {%- assign toc_level = toc_part | slice: 0 -%}
+  {%- if toc_level != "2" and toc_level != "3" -%}{%- continue -%}{%- endif -%}
+  {%- assign toc_open_tag = toc_part | split: ">" | first -%}
+  {%- unless toc_open_tag contains 'id="' -%}{%- continue -%}{%- endunless -%}
+  {%- if toc_open_tag contains "no_toc" -%}{%- continue -%}{%- endif -%}
+  {%- assign toc_id = toc_open_tag | split: 'id="' | last | split: '"' | first -%}
+  {%- assign toc_close_tag = "</h" | append: toc_level | append: ">" -%}
+  {%- assign toc_text = toc_part | split: toc_close_tag | first | remove_first: toc_open_tag | remove_first: ">" | strip_html | strip -%}
+  {%- if toc_text == "" -%}{%- continue -%}{%- endif -%}
+  {%- assign toc_count = toc_count | plus: 1 -%}
+  {%- if toc_level == "2" -%}
+    {%- if toc_sub_open -%}</ol></li>{%- assign toc_sub_open = false -%}{%- elsif toc_item_open -%}</li>{%- endif -%}
+    <li><a href="#{{ toc_id }}">{{ toc_text }}</a>
+    {%- assign toc_item_open = true -%}
+  {%- else -%}
+    {%- unless toc_item_open -%}<li>{%- assign toc_item_open = true -%}{%- endunless -%}
+    {%- unless toc_sub_open -%}<ol role="list">{%- assign toc_sub_open = true -%}{%- endunless -%}
+    <li><a href="#{{ toc_id }}">{{ toc_text }}</a></li>
+  {%- endif -%}
+{%- endfor -%}
+{%- if toc_sub_open -%}</ol></li>{%- elsif toc_item_open -%}</li>{%- endif -%}
+{%- endcapture -%}
+{%- if toc_count >= 2 -%}<ol class="toc-list" role="list">{{ toc_items }}</ol>{%- endif -%}

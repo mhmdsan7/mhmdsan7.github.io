@@ -1,0 +1,14 @@
+{%- comment -%}
+  Sets `cat_posts` (newest first) and `cat_count` for the category include.id.
+{%- endcomment -%}
+{%- assign cat_posts = "" | split: "" -%}
+{%- for cat_post in site.posts -%}
+  {%- for cat_post_name in cat_post.categories -%}
+    {%- assign cat_post_id = cat_post_name | slugify -%}
+    {%- if cat_post_id == include.id -%}
+      {%- assign cat_posts = cat_posts | push: cat_post -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+{%- assign cat_count = cat_posts | size -%}

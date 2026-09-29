@@ -1,0 +1,43 @@
+---
+layout: default
+title: Categories
+description: "Browse APT-966 research by topic: threat actors and APTs, malware analysis, ransomware, campaign analysis, and detection engineering."
+permalink: /categories/
+---
+{%- assign index_categories = site.pages | where: "layout", "category" | sort: "order" -%}
+{%- capture index_tag_names -%}{%- for tag in site.tags -%}{{ tag[0] }}{%- unless forloop.last -%}|{%- endunless -%}{%- endfor -%}{%- endcapture -%}
+{%- assign index_tag_names = index_tag_names | split: "|" | sort_natural -%}
+<div class="container page">
+  {% include page-header.html eyebrow="Browse" lead="Research grouped by topic. Each category lists its articles, newest first." %}
+
+  <ul class="category-grid category-grid--large" role="list">
+    {%- for cat in index_categories %}
+    {%- include category-posts.html id=cat.category_id %}
+    <li class="category-card">
+      <span class="category-icon">{% include icon.html name=cat.icon %}</span>
+      <h2 class="category-name"><a class="card-link" href="{{ cat.url | relative_url }}">{{ cat.title | escape }}</a></h2>
+      <p class="category-desc">{{ cat.description }}</p>
+      {%- if cat_count > 0 %}
+      <p class="category-latest"><span class="visually-hidden">Latest: </span>{{ cat_posts.first.title | escape }}</p>
+      {%- endif %}
+      <p class="category-count">{% if cat_count == 0 %}No articles yet{% elsif cat_count == 1 %}1 article{% else %}{{ cat_count }} articles{% endif %}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+
+  <section class="tag-index" aria-labelledby="tags-title">
+    <div class="section-head">
+      <h2 class="section-title" id="tags-title">Tags</h2>
+      <a class="section-link" href="{{ '/tags/' | relative_url }}">All tags{% include icon.html name="arrow-right" %}</a>
+    </div>
+    {%- if index_tag_names.size > 0 %}
+    <ul class="tags tags--cloud" role="list">
+      {%- for name in index_tag_names %}
+      <li><a class="tag" href="{{ '/tags/' | relative_url }}#{{ name | slugify }}">{{ name }} <span class="tag-count">{{ site.tags[name] | size }}</span></a></li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="muted">No tags yet. Tags added to articles will appear here.</p>
+    {%- endif %}
+  </section>
+</div>

@@ -1,30 +1,86 @@
 ---
 layout: default
 ---
-<link href="/css/override.css" rel="stylesheet" type="text/css">
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+{%- include post-category.html post=page -%}
+{%- assign article_cat = post_cat -%}
+{%- assign article_cover = page.image.path | default: page.image -%}
+{%- if article_cover == site.social_image -%}{%- assign article_cover = nil -%}{%- endif -%}
+{%- assign article_cover_alt = page.image_alt | default: page.image.alt | default: "" -%}
+{%- assign article_author = page.author | default: site.author -%}
+{%- capture article_toc -%}{%- if page.toc != false -%}{% include toc.html html=content %}{%- endif -%}{%- endcapture -%}
+{%- assign article_toc = article_toc | strip -%}
+{%- assign article_body = content | replace: "<table", '<div class="table-wrap"><table' | replace: "</table>", "</table></div>" -%}
+<article class="article{% if article_toc != '' %} has-toc{% endif %}">
+  <div class="container article-grid">
+    <header class="article-header">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol role="list">
+          <li><a href="{{ '/research/' | relative_url }}">Research</a></li>
+          {%- if article_cat %}
+          <li><a href="{{ article_cat.url | relative_url }}">{{ article_cat.title | escape }}</a></li>
+          {%- endif %}
+        </ol>
+      </nav>
+      <h1 class="article-title">{{ page.title | escape }}</h1>
+      {%- if page.description %}
+      <p class="article-summary">{{ page.description | escape }}</p>
+      {%- endif %}
+      <div class="article-meta">
+        <span class="meta-item">{% include icon.html name="user" %}<span>By <a href="{{ '/about/' | relative_url }}" rel="author">{{ article_author }}</a></span></span>
+        <span class="meta-item">{% include icon.html name="calendar" %}<span>Published <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%-d %b %Y" }}</time></span></span>
+        {%- if page.last_modified_at %}
+        <span class="meta-item">Updated <time datetime="{{ page.last_modified_at | date_to_xmlschema }}">{{ page.last_modified_at | date: "%-d %b %Y" }}</time></span>
+        {%- endif %}
+        <span class="meta-item">{% include icon.html name="clock" %}<span>{% include reading-time.html content=content %}</span></span>
+      </div>
+      {%- if page.tags and page.tags.size > 0 %}
+      <ul class="tags" role="list" aria-label="Tags">
+        {%- for tag in page.tags %}
+        <li><a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </header>
 
-  <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        {{ page.date | date: date_format }}
-      </time>
-      {% assign author = page.author | default: site.author %}
-      {%- if author -%}
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ author }}</span></span>
-      {%- endif -%}</p>
-  </header>
+    {%- if article_cover %}
+    <figure class="article-cover">
+      <img src="{{ article_cover | relative_url }}" alt="{{ article_cover_alt | escape }}" decoding="async"{% if page.image_width %} width="{{ page.image_width }}"{% endif %}{% if page.image_height %} height="{{ page.image_height }}"{% endif %}>
+      {%- if page.image_caption %}
+      <figcaption>{{ page.image_caption | markdownify | remove: "<p>" | remove: "</p>" | strip }}</figcaption>
+      {%- endif %}
+    </figure>
+    {%- endif %}
 
-  <div class="share-links">
-    {% include sharelinks.html %}
+    {%- if article_toc != "" %}
+    <div class="article-aside">
+      <nav class="toc toc--sidebar" aria-label="Table of contents">
+        <p class="toc-title">On this page</p>
+        {{ article_toc }}
+        <a class="toc-top" href="#top">{% include icon.html name="arrow-up" %}Back to top</a>
+      </nav>
+    </div>
+    {%- endif %}
+
+    <div class="article-body">
+      {% include research-meta.html %}
+      {%- if article_toc != "" %}
+      <details class="toc toc--inline">
+        <summary>{% include icon.html name="list" %}<span>On this page</span>{% include icon.html name="chevron-down" class="toc-chevron" %}</summary>
+        <nav aria-label="Table of contents">{{ article_toc }}</nav>
+      </details>
+      {%- endif %}
+
+      <div class="prose" id="article-content">
+        {{ article_body }}
+      </div>
+
+      <footer class="article-footer">
+        {% include share.html %}
+        <a class="back-to-top" href="#top">{% include icon.html name="arrow-up" %}Back to top</a>
+      </footer>
+    </div>
   </div>
 
-  <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
-    {% include navlinks.html %}
-  </div>
-
-  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  {% include post-nav.html %}
+  {% include related-posts.html category=article_cat %}
 </article>

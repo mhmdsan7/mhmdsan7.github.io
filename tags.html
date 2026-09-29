@@ -1,0 +1,41 @@
+---
+layout: default
+title: Tags
+description: "Every tag used across APT-966 research, with the articles filed under each."
+permalink: /tags/
+---
+{%- capture tag_names -%}{%- for tag in site.tags -%}{{ tag[0] }}{%- unless forloop.last -%}|{%- endunless -%}{%- endfor -%}{%- endcapture -%}
+{%- assign tag_names = tag_names | split: "|" | sort_natural -%}
+<div class="container page page--narrow">
+  {% include page-header.html eyebrow="Browse" lead="Actors, malware families, techniques, and themes. Select a tag to jump to its articles." %}
+
+  {%- if tag_names.size > 0 %}
+  <nav class="tag-nav" aria-label="All tags">
+    <ul class="tags tags--cloud" role="list">
+      {%- for name in tag_names %}
+      <li><a class="tag" href="#{{ name | slugify }}">{{ name }} <span class="tag-count">{{ site.tags[name] | size }}</span></a></li>
+      {%- endfor %}
+    </ul>
+  </nav>
+
+  {%- for name in tag_names %}
+  {%- assign tag_slug = name | slugify %}
+  {%- assign tag_posts = site.tags[name] %}
+  <section class="tag-section" id="{{ tag_slug }}" aria-labelledby="tag-title-{{ tag_slug }}">
+    <h2 class="tag-heading" id="tag-title-{{ tag_slug }}"><span class="tag-hash" aria-hidden="true">#</span>{{ name }} <span class="year-count">{{ tag_posts.size }} {% if tag_posts.size == 1 %}article{% else %}articles{% endif %}</span></h2>
+    <ol class="post-list" role="list">
+      {%- for post in tag_posts %}
+      <li>{% include post-row.html post=post %}</li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+  {%- else %}
+  <div class="empty-state">
+    <span class="empty-icon">{% include icon.html name="tag" %}</span>
+    <h2 class="empty-title">No tags yet</h2>
+    <p>Tags added to articles (actors, malware families, techniques) will be listed here.</p>
+    <p class="empty-actions"><a class="button button--ghost" href="{{ '/categories/' | relative_url }}">Browse categories</a></p>
+  </div>
+  {%- endif %}
+</div>

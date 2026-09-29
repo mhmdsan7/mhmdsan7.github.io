@@ -1,0 +1,43 @@
+{%- comment -%}
+  Article card. Params: post (required), variant ("featured"), level (heading
+  level, default 3).
+{%- endcomment -%}
+{%- assign card_post = include.post -%}
+{%- assign card_level = include.level | default: 3 -%}
+{%- include post-category.html post=card_post -%}
+{%- assign card_cover = card_post.image.path | default: card_post.image -%}
+{%- if card_cover == site.social_image -%}{%- assign card_cover = nil -%}{%- endif -%}
+{%- assign card_summary = card_post.description | default: card_post.excerpt | strip_html | normalize_whitespace | truncatewords: 36 -%}
+<article class="card{% if include.variant %} card--{{ include.variant }}{% endif %}">
+  <div class="card-media">
+    {%- if card_cover %}
+    <img src="{{ card_cover | relative_url }}" alt="" loading="lazy" decoding="async">
+    {%- else %}
+    {% include cover-fallback.html cat=post_cat %}
+    {%- endif %}
+  </div>
+  <div class="card-body">
+    {%- if include.variant == "featured" %}
+    <p class="card-flag">Featured</p>
+    {%- endif %}
+    {%- if post_cat %}
+    <a class="kicker" href="{{ post_cat.url | relative_url }}">{{ post_cat.title | escape }}</a>
+    {%- endif %}
+    <h{{ card_level }} class="card-title"><a class="card-link" href="{{ card_post.url | relative_url }}">{{ card_post.title | escape }}</a></h{{ card_level }}>
+    {%- if card_summary != "" %}
+    <p class="card-summary">{{ card_summary }}</p>
+    {%- endif %}
+    <p class="meta">
+      <time datetime="{{ card_post.date | date_to_xmlschema }}">{{ card_post.date | date: "%-d %b %Y" }}</time>
+      <span class="meta-sep" aria-hidden="true">/</span>
+      <span>{% include reading-time.html content=card_post.content %}</span>
+    </p>
+    {%- if card_post.tags and card_post.tags.size > 0 %}
+    <ul class="tags" role="list" aria-label="Tags">
+      {%- for tag in card_post.tags limit: 4 %}
+      <li><a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>
+      {%- endfor %}
+    </ul>
+    {%- endif %}
+  </div>
+</article>

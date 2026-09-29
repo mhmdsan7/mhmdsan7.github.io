@@ -2,7 +2,13 @@
 layout: post
 title: "RansomHub: The Rise of a Ruthless Ransomware Gang"
 date: 2025-06-21
-categories: [ransomware, threat-intel, RaaS]
+# Keeps the article's original URL, which came from its earlier categories
+# (ransomware, threat-intel, RaaS).
+permalink: /ransomware/threat-intel/raas/2025/06/21/ransomhub-ransomware-analysis.html
+categories: [ransomware]
+tags: [RansomHub, RaaS, threat-intel]
+description: "RansomHub is a Ransomware-as-a-Service (RaaS) group that emerged in early 2024 and quickly gained attention in the cyber threat landscape."
+featured: true
 ---
 
 > *“If one group disappears, two more rise in its place.”*  
@@ -61,6 +67,7 @@ This group often targets organizations with **weak EDR**, **unpatched VPNs**, or
 | Domain    | `ransomhub[.]onion`          |
 | File hash | `ec5b7e...` (SHA256, redacted)|
 | C2 URL    | `hxxp://ransom-node[.]org`   |
+{: .ioc}
 
 ---
 

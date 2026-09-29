@@ -1,0 +1,9 @@
+---
+layout: default
+---
+<div class="container page page--narrow">
+  {% include page-header.html eyebrow=page.eyebrow %}
+  <div class="prose">
+    {{ content | replace: "<table", '<div class="table-wrap"><table' | replace: "</table>", "</table></div>" }}
+  </div>
+</div>

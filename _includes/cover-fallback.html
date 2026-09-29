@@ -1,0 +1,14 @@
+{%- comment -%} Decorative cover for posts without an `image`. {%- endcomment -%}
+{%- assign cover_icon = include.cat.icon | default: "network" -%}
+<div class="cover-fallback{% if include.cat %} cover-fallback--{{ include.cat.category_id }}{% endif %}" aria-hidden="true">
+  <svg class="cover-network" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <path class="cover-edges" d="M24 178 96 128l72 44 78-72 76 50 58-86M96 128l52-76 98 48M168 172l58 42 96-64M246 100l58-70M322 150l54 58"/>
+    <g class="cover-nodes">
+      <circle cx="24" cy="178" r="3"/><circle cx="96" cy="128" r="3.5"/><circle cx="168" cy="172" r="3"/>
+      <circle cx="322" cy="150" r="3.5"/><circle cx="380" cy="64" r="3"/><circle cx="148" cy="52" r="3"/>
+      <circle cx="226" cy="214" r="3"/><circle cx="304" cy="30" r="3"/><circle cx="376" cy="208" r="3"/>
+      <circle class="cover-node-hot" cx="246" cy="100" r="5"/>
+    </g>
+  </svg>
+  <span class="cover-icon">{% include icon.html name=cover_icon %}</span>
+</div>

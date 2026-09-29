@@ -1,0 +1,11 @@
+{%- assign ph_title = include.title | default: page.title -%}
+{%- assign ph_lead = include.lead | default: page.lead | default: page.description -%}
+<header class="page-header">
+  {%- if include.eyebrow %}
+  <p class="eyebrow">{{ include.eyebrow }}</p>
+  {%- endif %}
+  <h1 class="page-title">{{ ph_title | escape }}</h1>
+  {%- if ph_lead %}
+  <p class="page-lead">{{ ph_lead }}</p>
+  {%- endif %}
+</header>

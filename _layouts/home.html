@@ -1,0 +1,100 @@
+---
+layout: default
+---
+{%- assign home_categories = site.pages | where: "layout", "category" | sort: "order" -%}
+{%- assign featured = site.posts | where: "featured", true | first -%}
+{%- unless featured -%}{%- assign featured = site.posts | first -%}{%- endunless -%}
+{%- assign hero_title = page.hero_title | default: site.tagline | escape | replace: "&amp;", '<span class="amp">&amp;</span>' -%}
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true">{% include network-graphic.html %}</div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <p class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>Threat research by {{ site.author }}</p>
+      <h1 class="hero-title" id="hero-title">{{ hero_title }}</h1>
+      <p class="hero-lead">{{ page.hero_lead | default: site.description }}</p>
+      <div class="hero-actions">
+        <a class="button button--primary" href="{{ '/research/' | relative_url }}">Browse research{% include icon.html name="arrow-right" %}</a>
+        <a class="button button--ghost" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Subscribe via RSS</a>
+      </div>
+    </div>
+    <ul class="topic-list" role="list" aria-label="Research topics">
+      {%- for cat in home_categories %}
+      <li><a class="topic" href="{{ cat.url | relative_url }}">{% include icon.html name=cat.icon %}{{ cat.title | escape }}</a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+{%- if featured %}
+<section class="container section" aria-labelledby="featured-title">
+  <div class="section-head">
+    <h2 class="section-title" id="featured-title">Featured research</h2>
+  </div>
+  {% include post-card.html post=featured variant="featured" %}
+</section>
+{%- endif %}
+
+<section class="container section" aria-labelledby="latest-title">
+  <div class="section-head">
+    <h2 class="section-title" id="latest-title">Latest research</h2>
+    <a class="section-link" href="{{ '/research/' | relative_url }}">View all{% include icon.html name="arrow-right" %}</a>
+  </div>
+  {%- assign latest_count = 0 -%}
+  {%- capture latest_cards -%}
+    {%- for post in site.posts -%}
+      {%- if featured and post.url == featured.url -%}{%- continue -%}{%- endif -%}
+      {%- if latest_count >= 6 -%}{%- break -%}{%- endif -%}
+      {%- assign latest_count = latest_count | plus: 1 %}
+      {% include post-card.html post=post %}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if latest_count > 0 %}
+  <div class="card-grid">
+    {{ latest_cards }}
+  </div>
+  {%- else %}
+  <div class="empty-state">
+    <span class="empty-icon">{% include icon.html name="rss" %}</span>
+    <p class="empty-title">{% if featured %}More research is on the way{% else %}No research published yet{% endif %}</p>
+    <p>{% if featured %}The featured article above is the latest publication. {% endif %}New work on threat actors, malware, ransomware, campaigns, and detection engineering will appear here.</p>
+    <p class="empty-actions">
+      <a class="button button--ghost" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Follow via RSS</a>
+      {%- if site.twitter_username %}
+      <a class="button button--ghost" href="https://twitter.com/{{ site.twitter_username }}" rel="noopener">{% include icon.html name="x" %}Follow on X</a>
+      {%- endif %}
+    </p>
+  </div>
+  {%- endif %}
+</section>
+
+<section class="container section" aria-labelledby="topics-title">
+  <div class="section-head">
+    <h2 class="section-title" id="topics-title">Browse by topic</h2>
+    <a class="section-link" href="{{ '/categories/' | relative_url }}">All categories{% include icon.html name="arrow-right" %}</a>
+  </div>
+  <ul class="category-grid" role="list">
+    {%- for cat in home_categories %}
+    {%- include category-posts.html id=cat.category_id %}
+    <li class="category-card">
+      <span class="category-icon">{% include icon.html name=cat.icon %}</span>
+      <h3 class="category-name"><a class="card-link" href="{{ cat.url | relative_url }}">{{ cat.title | escape }}</a></h3>
+      <p class="category-desc">{{ cat.description }}</p>
+      <p class="category-count">{% if cat_count == 0 %}No articles yet{% elsif cat_count == 1 %}1 article{% else %}{{ cat_count }} articles{% endif %}</p>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+
+<section class="container section" aria-labelledby="about-title">
+  <div class="about-strip">
+    <div class="about-strip-text">
+      <h2 class="about-strip-title" id="about-title">About {{ site.title }}</h2>
+      <p>{{ site.title }} is where {{ site.author }}, a Cyber Threat Intelligence analyst, shares research on threat intelligence, cybersecurity trends, and adversary tactics.</p>
+    </div>
+    <div class="about-strip-actions">
+      <a class="button button--ghost" href="{{ '/about/' | relative_url }}">About the author{% include icon.html name="arrow-right" %}</a>
+      {% include social-links.html %}
+    </div>
+  </div>
+</section>
