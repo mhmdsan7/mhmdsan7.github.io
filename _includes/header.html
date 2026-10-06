@@ -1,0 +1,44 @@
+{%- assign current_url = page.url | default: "/" -%}
+{%- assign section = "" -%}
+{%- if current_url == "/" or current_url == "/index.html" -%}
+  {%- assign section = "home" -%}
+{%- elsif page.layout == "post" or current_url contains "/research/" -%}
+  {%- assign section = "research" -%}
+{%- elsif page.layout == "category" or current_url contains "/categories/" or current_url contains "/tags/" -%}
+  {%- assign section = "categories" -%}
+{%- elsif current_url contains "/about/" -%}
+  {%- assign section = "about" -%}
+{%- elsif current_url contains "/search/" -%}
+  {%- assign section = "search" -%}
+{%- endif -%}
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      {% include logo.html id="header" %}
+      <span class="brand-name">{{ site.title }}</span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <ul class="nav-list" role="list">
+        <li><a href="{{ '/' | relative_url }}"{% if section == "home" %} aria-current="page"{% endif %}>Home</a></li>
+        <li><a href="{{ '/research/' | relative_url }}"{% if section == "research" %}{% if current_url == "/research/" %} aria-current="page"{% else %} aria-current="true"{% endif %}{% endif %}>Research</a></li>
+        <li><a href="{{ '/categories/' | relative_url }}"{% if section == "categories" %}{% if current_url == "/categories/" %} aria-current="page"{% else %} aria-current="true"{% endif %}{% endif %}>Categories</a></li>
+        <li><a href="{{ '/about/' | relative_url }}"{% if section == "about" %} aria-current="page"{% endif %}>About</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a class="search-trigger" href="{{ '/search/' | relative_url }}"{% if section == "search" %} aria-current="page"{% endif %}>
+        {% include icon.html name="search" %}
+        <span class="search-trigger-label">Search</span>
+        <kbd class="search-trigger-kbd" aria-hidden="true">/</kbd>
+      </a>
+      <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme" title="Switch to light theme">
+        {% include icon.html name="sun" class="icon-sun" %}
+        {% include icon.html name="moon" class="icon-moon" %}
+      </button>
+      <button class="icon-button nav-toggle" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu">
+        {% include icon.html name="menu" class="icon-menu" %}
+        {% include icon.html name="close" class="icon-close" %}
+      </button>
+    </div>
+  </div>
+</header>

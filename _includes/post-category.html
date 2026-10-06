@@ -1,0 +1,10 @@
+{%- comment -%}
+  Sets `post_cat` to the category page (categories/*.md) of include.post: the
+  first of the post's categories that has a page. nil when none match.
+{%- endcomment -%}
+{%- assign post_cat = nil -%}
+{%- for post_cat_name in include.post.categories -%}
+  {%- assign post_cat_id = post_cat_name | slugify -%}
+  {%- assign post_cat = site.pages | where: "category_id", post_cat_id | first -%}
+  {%- if post_cat -%}{%- break -%}{%- endif -%}
+{%- endfor -%}

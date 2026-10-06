@@ -1,0 +1,45 @@
+# Fields for the optional "At a glance" panel at the top of an article.
+#
+# In a post, add a `research:` block with any of these keys. Only keys that are
+# present and not empty are shown, in the order listed here. Values can be a
+# single value or a list.
+#
+#   key:    front-matter key under `research:`
+#   label:  label shown to readers
+#   mono:   show values in a monospace font (hashes, identifiers)
+#   copy:   add a copy button to each value
+#   wide:   span the full width of the panel
+#   format: "tlp" renders a Traffic Light Protocol label (CLEAR, GREEN, AMBER, AMBER+STRICT, RED)
+
+- key: tlp
+  label: TLP
+  format: tlp
+- key: actor
+  label: Threat actor
+- key: aliases
+  label: Also known as
+- key: attribution
+  label: Attribution
+- key: confidence
+  label: Confidence
+- key: motivation
+  label: Motivation
+- key: malware
+  label: Malware family
+- key: file_type
+  label: File type
+- key: sectors
+  label: Targeted sectors
+- key: regions
+  label: Targeted regions
+- key: platforms
+  label: Platforms
+- key: first_seen
+  label: First seen
+- key: last_seen
+  label: Last seen
+- key: sha256
+  label: SHA-256
+  mono: true
+  copy: true
+  wide: true

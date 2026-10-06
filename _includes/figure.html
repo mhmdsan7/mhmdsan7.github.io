@@ -1,0 +1,16 @@
+{%- comment -%}
+  Screenshot, diagram, or chart with an optional caption. Click to enlarge.
+
+  {% include figure.html src="/assets/img/posts/my-post/figure-1.png"
+     alt="What the image shows" caption="Figure 1. Caption (Markdown allowed)." %}
+
+  Params: src (required), alt (required), caption, full (larger image to open
+  on click; defaults to src), width and height (pixel size, avoids layout
+  shift), class ("wide" lets the figure use the full column).
+{%- endcomment -%}
+<figure class="figure{% if include.class %} figure--{{ include.class }}{% endif %}">
+<a class="zoom-link" href="{{ include.full | default: include.src | relative_url }}" data-lightbox><img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" loading="lazy" decoding="async"{% if include.width %} width="{{ include.width }}"{% endif %}{% if include.height %} height="{{ include.height }}"{% endif %}></a>
+{%- if include.caption %}
+<figcaption>{{ include.caption | markdownify | remove: "<p>" | remove: "</p>" | strip }}</figcaption>
+{%- endif %}
+</figure>

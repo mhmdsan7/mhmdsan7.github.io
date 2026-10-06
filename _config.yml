@@ -1,30 +1,104 @@
+# -----------------------------------------------------------------------------
+# APT-966 — site configuration
+#
+# GitHub Pages builds and deploys this site from the `main` branch (Jekyll 3.10
+# with the plugins GitHub Pages allows). Changes here take effect on the next
+# push to `main`.
+# -----------------------------------------------------------------------------
+
 title: "APT-966"
+tagline: "Cyber Threat Intelligence & Malware Analysis"
+description: "Research on threat actors, malicious campaigns, and the malware behind them."
 author: "Mohammed Aladgham"
-description: "CTI analyst who just yapping about security stuff."
+lang: en-US
+
+# Custom domain (see CNAME). Used for canonical URLs, RSS, the sitemap, and
+# social previews.
+url: "https://blog.aladgham.com"
+baseurl: ""
 
 twitter_username: "Al_adg"
 github_username: "mhmdsan7"
 linkedin_username: "aladghm"
-remote_theme: pages-themes/midnight@v0.2.0
-plugins:
-  - jekyll-remote-theme
 
+# jekyll-seo-tag: X/Twitter handle and profile links for structured data.
+twitter:
+  username: "Al_adg"
+social:
+  name: "Mohammed Aladgham"
+  links:
+    - "https://twitter.com/Al_adg"
+    - "https://github.com/mhmdsan7"
+    - "https://www.linkedin.com/in/aladghm"
+logo: "/apple-touch-icon.png"
 
+# Preview image for pages that don't set their own `image` (keep in sync with
+# the `image` default below).
+social_image: "/assets/img/social-card.png"
+
+# The layouts live in this repository; don't load GitHub Pages' default theme.
+theme: null
+
+# Jekyll's default URL style: /:categories/:year/:month/:day/:title.html
+# Changing a published post's categories or date changes its URL unless the
+# post pins its own `permalink:`.
+permalink: date
+
+markdown: kramdown
 kramdown:
-  syntax_highlighter_opts:
-    disable: true
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+  # Keep technical strings exactly as typed: no curly quotes, dashes, or
+  # ellipsis substitution, so command-line flags and indicators copy correctly.
+  smart_quotes: ["apos", "apos", "quot", "quot"]
+  typographic_symbols:
+    hellip: "..."
+    mdash: "---"
+    ndash: "--"
+    laquo: "<<"
+    raquo: ">>"
+    laquo_space: "<< "
+    raquo_space: " >>"
+
+# GitHub Pages' titles-from-headings plugin: only give a title to pages that
+# have none. Posts always use their front-matter title (with `collections:
+# true` the plugin replaced it with a post's first heading and removed it).
+titles_from_headings:
+  strip_title: false
+  collections: false
 
 plugins:
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-redirect-from
 
-titles_from_headings:
-  strip_title: true
-  collections: true
+feed:
+  posts_limit: 20
 
 defaults:
   - scope:
       path: ""
-      type: post
     values:
-      tags: Other
+      image: "/assets/img/social-card.png"
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      toc: true
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - node_modules/
+  - .sass-cache/
+  - .jekyll-cache/

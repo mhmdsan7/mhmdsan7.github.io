@@ -1,0 +1,24 @@
+<nav class="container post-nav" aria-label="More articles">
+  {%- if page.previous %}
+  <a class="post-nav-link post-nav-prev" href="{{ page.previous.url | relative_url }}" rel="prev">
+    <span class="post-nav-label">{% include icon.html name="arrow-left" %}Older article</span>
+    <span class="post-nav-title">{{ page.previous.title | escape }}</span>
+  </a>
+  {%- else %}
+  <a class="post-nav-link post-nav-prev" href="{{ '/research/' | relative_url }}">
+    <span class="post-nav-label">{% include icon.html name="arrow-left" %}Research archive</span>
+    <span class="post-nav-title">Browse all articles</span>
+  </a>
+  {%- endif %}
+  {%- if page.next %}
+  <a class="post-nav-link post-nav-next" href="{{ page.next.url | relative_url }}" rel="next">
+    <span class="post-nav-label">Newer article{% include icon.html name="arrow-right" %}</span>
+    <span class="post-nav-title">{{ page.next.title | escape }}</span>
+  </a>
+  {%- else %}
+  <a class="post-nav-link post-nav-next" href="{{ '/categories/' | relative_url }}">
+    <span class="post-nav-label">Categories{% include icon.html name="arrow-right" %}</span>
+    <span class="post-nav-title">Browse research by topic</span>
+  </a>
+  {%- endif %}
+</nav>

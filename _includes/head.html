@@ -1,35 +1,25 @@
-
-<!-- Site build date: {{ "now" | date: "%FT%T%z" }} -->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Begin SEO -->
-  {% seo %}
-  <!-- End SEO -->
-
-  <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
-  <link rel="stylesheet" type="text/css" href="/css/override.css">
-
-  {% feed_meta %}
-
-  {% if jekyll.environment == 'production' and site.google_analytics -%}
-  <!-- Begin Google Analytics -->
-  {% include google-analytics.html %}
-  <!-- End Google Analytics -->
-  {%- endif %}
-
-  <!-- Begin highlight.js support -->
-  <link rel="stylesheet" href="/js/highlightjs/styles/github.css">
-  <link rel="stylesheet" href="/js/highlightjs/styles/ssms.css" />
-
-  <script type="text/javascript" src="/js/highlightjs/highlight.min.js"></script>
-
-  <script type="text/javascript" src="/js/highlightjs/languages/plaintext.min.js"></script>
-  <script type="text/javascript" src="/js/highlightjs/languages/powershell.min.js"></script>
-  <script type="text/javascript" src="/js/highlightjs/languages/tsql.min.js"></script>
-
-  <script type="text/javascript"> hljs.highlightAll(); </script>
-  <!-- end highlight.js support -->
-</head>
+{%- assign asset_version = site.time | date: "%s" -%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0B0F19">
+<script>
+  /* Apply the saved theme before the first paint. Dark is the default. */
+  (function (root) {
+    root.className = root.className.replace(/\bno-js\b/, "js");
+    try {
+      var theme = localStorage.getItem("theme");
+      if (theme === "light" || theme === "dark") root.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })(document.documentElement);
+</script>
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ asset_version }}">
+<link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
+<link rel="icon" href="{{ '/assets/img/favicon.svg' | relative_url }}" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | relative_url }}">
+{% seo %}
+{% feed_meta %}
+<script src="{{ '/assets/js/main.js' | relative_url }}?v={{ asset_version }}" defer></script>
+{%- for script in page.scripts %}
+<script src="{{ script | relative_url }}?v={{ asset_version }}" defer></script>
+{%- endfor %}

@@ -1,0 +1,8 @@
+{%- assign rv_text = include.value | append: "" | strip -%}
+{%- if include.field.format == "tlp" -%}
+  {%- assign rv_level = rv_text | upcase | remove: "TLP:" | strip -%}
+  {%- assign rv_class = rv_level | downcase | replace: "+", "-" -%}
+<span class="glance-value"><span class="tlp tlp--{{ rv_class }}">TLP:{{ rv_level | escape }}</span></span>
+{%- else -%}
+<span class="glance-value"{% if include.field.copy %} data-copy="{{ include.field.label | escape }}"{% endif %}>{{ rv_text | escape }}</span>
+{%- endif -%}

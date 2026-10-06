@@ -1,0 +1,30 @@
+{%- comment -%}
+  Compact article row for archives. Params: post (required), level (heading
+  level, default 3), hide_category (true on a category's own page).
+{%- endcomment -%}
+{%- assign row_post = include.post -%}
+{%- assign row_level = include.level | default: 3 -%}
+{%- include post-category.html post=row_post -%}
+{%- assign row_summary = row_post.description | default: row_post.excerpt | strip_html | normalize_whitespace | truncatewords: 42 -%}
+<article class="post-row">
+  <time class="post-row-date" datetime="{{ row_post.date | date_to_xmlschema }}">{{ row_post.date | date: "%-d %b %Y" }}</time>
+  <div class="post-row-body">
+    {%- if post_cat and include.hide_category != true %}
+    <a class="kicker" href="{{ post_cat.url | relative_url }}">{{ post_cat.title | escape }}</a>
+    {%- endif %}
+    <h{{ row_level }} class="post-row-title"><a class="card-link" href="{{ row_post.url | relative_url }}">{{ row_post.title | escape }}</a></h{{ row_level }}>
+    {%- if row_summary != "" %}
+    <p class="post-row-summary">{{ row_summary }}</p>
+    {%- endif %}
+    <div class="post-row-meta">
+      <span class="meta">{% include reading-time.html content=row_post.content %}</span>
+      {%- if row_post.tags and row_post.tags.size > 0 %}
+      <ul class="tags" role="list" aria-label="Tags">
+        {%- for tag in row_post.tags limit: 5 %}
+        <li><a class="tag" href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">{{ tag }}</a></li>
+        {%- endfor %}
+      </ul>
+      {%- endif %}
+    </div>
+  </div>
+</article>

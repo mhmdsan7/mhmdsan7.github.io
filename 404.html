@@ -1,0 +1,32 @@
+---
+layout: default
+title: Page not found
+description: "The page you requested could not be found."
+permalink: /404.html
+sitemap: false
+---
+<div class="container page page--narrow not-found">
+  {% include page-header.html eyebrow="Error 404" lead="The page you're looking for doesn't exist or has moved. Search the research, or start from the latest articles." %}
+
+  <form class="search-form" action="{{ '/search/' | relative_url }}" method="get" role="search">
+    <label class="visually-hidden" for="not-found-search">Search research</label>
+    {% include icon.html name="search" class="search-form-icon" %}
+    <input class="search-input" id="not-found-search" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="Search research">
+  </form>
+
+  <p class="empty-actions not-found-actions">
+    <a class="button button--primary" href="{{ '/' | relative_url }}">Go to the homepage</a>
+    <a class="button button--ghost" href="{{ '/research/' | relative_url }}">Browse all research</a>
+  </p>
+
+  {%- if site.posts.size > 0 %}
+  <section class="not-found-latest" aria-labelledby="not-found-latest-title">
+    <h2 class="section-title" id="not-found-latest-title">Latest research</h2>
+    <ol class="post-list" role="list">
+      {%- for post in site.posts limit: 3 %}
+      <li>{% include post-row.html post=post %}</li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endif %}
+</div>

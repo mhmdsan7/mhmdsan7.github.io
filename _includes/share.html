@@ -1,0 +1,13 @@
+{%- assign share_url = page.url | absolute_url -%}
+{%- assign share_url_q = share_url | cgi_escape -%}
+{%- assign share_title_q = page.title | cgi_escape | replace: "+", "%20" -%}
+<div class="share">
+  <p class="share-label" id="share-label">Share</p>
+  <ul class="share-list" role="list" aria-labelledby="share-label">
+    <li><a class="icon-button" href="https://twitter.com/intent/tweet?url={{ share_url_q }}&amp;text={{ share_title_q }}{% if site.twitter_username %}&amp;via={{ site.twitter_username }}{% endif %}" target="_blank" rel="noopener" title="Share on X">{% include icon.html name="x" label="Share on X" %}</a></li>
+    <li><a class="icon-button" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url_q }}" target="_blank" rel="noopener" title="Share on LinkedIn">{% include icon.html name="linkedin" label="Share on LinkedIn" %}</a></li>
+    <li><a class="icon-button" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url_q }}" target="_blank" rel="noopener" title="Share on Facebook">{% include icon.html name="facebook" label="Share on Facebook" %}</a></li>
+    <li><a class="icon-button" href="mailto:?subject={{ share_title_q }}&amp;body={{ share_url_q }}" title="Share by email">{% include icon.html name="mail" label="Share by email" %}</a></li>
+    <li class="js-only"><button class="icon-button" type="button" data-copy-link="{{ share_url }}" title="Copy link">{% include icon.html name="link" label="Copy link" %}</button></li>
+  </ul>
+</div>

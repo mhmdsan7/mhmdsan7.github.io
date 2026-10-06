@@ -1,0 +1,32 @@
+{%- comment -%}
+  "At a glance" panel. Renders only the `research:` front-matter fields that
+  are present, using the labels in _data/research_fields.yml.
+{%- endcomment -%}
+{%- if page.research -%}
+{%- capture glance_rows -%}
+{%- for field in site.data.research_fields -%}
+  {%- assign value = page.research[field.key] -%}
+  {%- if value == nil or value == "" -%}{%- continue -%}{%- endif -%}
+  {%- if value.first == nil and value.size == 0 -%}{%- continue -%}{%- endif -%}
+  <div class="glance-row{% if field.wide %} glance-row--wide{% endif %}">
+    <dt>{{ field.label }}</dt>
+    <dd{% if field.mono %} class="mono"{% endif %}>
+      {%- if value.first -%}
+        {%- for item in value -%}
+          {%- include research-value.html value=item field=field -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- include research-value.html value=value field=field -%}
+      {%- endif -%}
+    </dd>
+  </div>
+{%- endfor -%}
+{%- endcapture -%}
+{%- assign glance_rows = glance_rows | strip -%}
+{%- if glance_rows != "" -%}
+<section class="glance" aria-labelledby="glance-title">
+  <h2 class="glance-title" id="glance-title">At a glance</h2>
+  <dl class="glance-list">{{ glance_rows }}</dl>
+</section>
+{%- endif -%}
+{%- endif -%}

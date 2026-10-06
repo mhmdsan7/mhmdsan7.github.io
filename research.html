@@ -1,0 +1,48 @@
+---
+layout: default
+title: Research
+description: "Every threat intelligence and malware research article on APT-966, newest first."
+permalink: /research/
+redirect_from:
+  - /archive.html
+---
+{%- assign research_categories = site.pages | where: "layout", "category" | sort: "order" -%}
+<div class="container page">
+  {% include page-header.html eyebrow="Archive" lead="Every article, newest first. Filter by topic, or search across titles, tags, and full text." %}
+
+  <div class="filter-bar">
+    <nav class="chip-row" aria-label="Filter by category">
+      <a class="chip" href="{{ '/research/' | relative_url }}" aria-current="page">All <span class="chip-count">{{ site.posts | size }}</span></a>
+      {%- for cat in research_categories %}
+      {%- include category-posts.html id=cat.category_id %}
+      <a class="chip" href="{{ cat.url | relative_url }}">{{ cat.title | escape }} <span class="chip-count">{{ cat_count }}</span></a>
+      {%- endfor %}
+    </nav>
+    <form class="inline-search" action="{{ '/search/' | relative_url }}" method="get" role="search">
+      <label class="visually-hidden" for="research-search">Search research</label>
+      <input class="inline-search-input" id="research-search" name="q" type="search" placeholder="Search research" autocomplete="off" spellcheck="false">
+      <button class="icon-button" type="submit">{% include icon.html name="search" label="Search" %}</button>
+    </form>
+  </div>
+
+  {%- if site.posts.size > 0 %}
+  {%- assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+  {%- for year in posts_by_year %}
+  <section class="year-group" aria-labelledby="year-{{ year.name }}">
+    <h2 class="year-title" id="year-{{ year.name }}">{{ year.name }} <span class="year-count">{{ year.items.size }} {% if year.items.size == 1 %}article{% else %}articles{% endif %}</span></h2>
+    <ol class="post-list" role="list">
+      {%- for post in year.items %}
+      <li>{% include post-row.html post=post %}</li>
+      {%- endfor %}
+    </ol>
+  </section>
+  {%- endfor %}
+  {%- else %}
+  <div class="empty-state">
+    <span class="empty-icon">{% include icon.html name="folder" %}</span>
+    <h2 class="empty-title">No research published yet</h2>
+    <p>Articles will be listed here, newest first, as soon as they're published.</p>
+    <p class="empty-actions"><a class="button button--ghost" href="{{ '/feed.xml' | relative_url }}">{% include icon.html name="rss" %}Follow via RSS</a></p>
+  </div>
+  {%- endif %}
+</div>
